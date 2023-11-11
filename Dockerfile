@@ -1,21 +1,26 @@
-FROM node:16-alpine AS builder
+# Stage 1: Build the application
+FROM node:18.13 AS builder
 WORKDIR /app
 
-# Dependencies
-COPY .npmrc ./
+# Copy package.json and package-lock.json
 COPY package.json ./
 COPY package-lock.json ./
+
+# Install dependencies
 RUN npm ci
 
+# Copy the rest of the application code
 COPY . .
 
-# Build
-ARG profile=local
-RUN npm run build-${profile}
+# Build the application
+RUN npm run build
 
-# Run
+# Stage 2: Serve the application
 FROM nginx:alpine
-COPY --from=builder /app/dist/* /usr/share/nginx/html
-COPY --from=builder /app/.docker/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/dist /usr/share/nginx/html
 
+# Expose port 80
 EXPOSE 80
+
+# Start Nginx server
+CMD ["nginx", "-g", "daemon off;"]
