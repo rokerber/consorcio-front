@@ -7,22 +7,30 @@ import { ParametrosRequest } from '../../models/parametrosrequest';
 import { TabelaPrincipal } from '../../models/tabelaprincipal';
 import { SimulacaoReajusteService } from 'src/app/services/simulacao.reajuste.service';
 import { TabelaReajuste } from '../../models/tabelareajuste';
+import { of, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+
+
 
 @Component({
   selector: 'app-parametros-simu',
   templateUrl: './parametros-simu.component.html',
   styleUrls: ['./parametros-simu.component.css'],
 })
+
+
 export class ParametrosSimuComponent implements OnInit {
 
+
   parametrosrequest: ParametrosRequest = {
-    modalidade:   '',
-    prazo:        '',
+    modalidade: '',
+    prazo: '',
     valorCredito: '',
-    incc:         '',
-    lance:        '',
-    taxaAdm:      '',
-    mesAtual:     '',
+    incc: '',
+    lance: '',
+    taxaAdm: '',
+    mesAtual: '',
   }
 
   tabelaprincipal: TabelaPrincipal[] = []
@@ -50,52 +58,53 @@ export class ParametrosSimuComponent implements OnInit {
 
   simularTabelaPrincipal(): void {
     this.simulacaoService.simulate(this.parametrosrequest).subscribe(resposta => {
-     this.tabelaprincipal = resposta;
-     this.simulacaoService.storeSimulationResult(this.tabelaprincipal);
-     this.router.navigate(['tabelaprincipal/list']);
-     this.toastrService.success('Simulação feita com sucesso!', 'Simulação');
-    }, ex => {
-      this.toastrService.error("Erro no calculo da simulação!");
-    })
+        this.tabelaprincipal = resposta;
+        this.simulacaoService.storeSimulationResult(this.tabelaprincipal);
+        this.router.navigate(['tabelaprincipal/list']);
+        this.toastrService.success('Simulação feita com sucesso!', 'Simulação');
+      }, err => {
+        this.toastrService.error(err.message);
+      })
   }
 
   simularTabelaReajuste(): void {
-    this.simulacaoReajusteService.simulate(this.parametrosrequest).subscribe(resposta => {
-     this.tabelareajuste = resposta;
-     this.simulacaoReajusteService.storeSimulationResult(this.tabelareajuste);
-     this.router.navigate(['tabelareajuste/list']);
-     this.toastrService.success('Simulação feita com sucesso', 'Simulação');
-    }, ex => {
-      this.toastrService.error("Erro no calculo da simulação!");
-    })
+    this.simulacaoReajusteService.simulate(this.parametrosrequest)
+      .subscribe(resposta => {
+        this.tabelareajuste = resposta;
+        this.simulacaoReajusteService.storeSimulationResult(this.tabelareajuste);
+        this.router.navigate(['tabelareajuste/list']);
+        this.toastrService.success('Simulação feita com sucesso', 'Simulação');
+      }, err => {
+        this.toastrService.error(err.message);
+      })
   }
 
   simularTodasTabelas(): void {
     this.simulacaoService.simulate(this.parametrosrequest).subscribe(resposta => {
-     this.tabelaprincipal = resposta;
-     this.simulacaoService.storeSimulationResult(this.tabelaprincipal);
-     this.router.navigate(['tabelaprincipal/list']);
-     this.toastrService.success('Simulação feita com sucesso', 'Simulação');
-    }, ex => {
-      this.toastrService.error("Erro no calculo da simulação!");
+      this.tabelaprincipal = resposta;
+      this.simulacaoService.storeSimulationResult(this.tabelaprincipal);
+      this.router.navigate(['tabelaprincipal/list']);
+      this.toastrService.success('Simulação feita com sucesso', 'Simulação');
+    }, err => {
+      this.toastrService.error(err.message);
     })
 
     this.simulacaoReajusteService.simulate(this.parametrosrequest).subscribe(resposta => {
-     this.tabelareajuste = resposta;
-     this.simulacaoReajusteService.storeSimulationResult(this.tabelareajuste);
-    }, ex => {
-      this.toastrService.error("Erro no calculo da simulação!");
+      this.tabelareajuste = resposta;
+      this.simulacaoReajusteService.storeSimulationResult(this.tabelareajuste);
+    }, err => {
+      this.toastrService.error(err.message);
     })
   }
 
   cancelar(): void {
-      this.router.navigate(['home']);
+    this.router.navigate(['home']);
   }
 
   validaCampos(): boolean {
     return this.modalidade.valid && this.prazo.valid &&
-    this.valorCredito.valid && this.incc.valid &&
-    this.lance.valid && this.taxaAdm.valid &&
-    this.mesAtual.valid;
+      this.valorCredito.valid && this.incc.valid &&
+      this.lance.valid && this.taxaAdm.valid &&
+      this.mesAtual.valid;
   }
 }
