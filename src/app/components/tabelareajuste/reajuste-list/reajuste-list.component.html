@@ -1,0 +1,77 @@
+<div class="container">
+
+    <h1>Resultado Simulação Tabela Reajuste</h1>
+    
+    <mat-form-field appearance="fill">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+    </mat-form-field>
+  
+      <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource">
+        
+            <ng-container matColumnDef="mes">
+              <th mat-header-cell *matHeaderCellDef> Mês </th>
+              <td mat-cell *matCellDef="let element"> {{element.mes}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="ano">
+              <th mat-header-cell *matHeaderCellDef> Ano </th>
+              <td mat-cell *matCellDef="let element"> {{element.ano}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="credito">
+              <th mat-header-cell *matHeaderCellDef> Crédito </th>
+              <td mat-cell *matCellDef="let element"> {{element.credito}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="saldoDevedor">
+                <th mat-header-cell *matHeaderCellDef> Saldo Devedor </th>
+                <td mat-cell *matCellDef="let element"> {{element.saldoDevedor}} </td>
+              </ng-container>
+        
+            <ng-container matColumnDef="acumuladoMeiaParcela">
+              <th mat-header-cell *matHeaderCellDef> Acumulado Meia Parcela </th>
+              <td mat-cell *matCellDef="let element"> {{element.acumuladoMeiaParcela}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="meiaParcela">
+                <th mat-header-cell *matHeaderCellDef> Meia Parcela </th>
+                <td mat-cell *matCellDef="let element"> {{element.meiaParcela}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="anual">
+                <th mat-header-cell *matHeaderCellDef> Anual </th>
+                <td mat-cell *matCellDef="let element"> {{element.anual}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="parcelaCheia">
+                <th mat-header-cell *matHeaderCellDef> Parcela Cheia </th>
+                <td mat-cell *matCellDef="let element"> {{element.parcelaCheia}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="anualCheia">
+                <th mat-header-cell *matHeaderCellDef> Anual Cheia </th>
+                <td mat-cell *matCellDef="let element"> {{element.anualCheia}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="acumuladoParcelaCheia">
+                <th mat-header-cell *matHeaderCellDef> Acumulado Parcela Cheia </th>
+                <td mat-cell *matCellDef="let element"> {{element.acumuladoParcelaCheia}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="totalAserPago">
+                <th mat-header-cell *matHeaderCellDef> Total a Ser Pago </th>
+                <td mat-cell *matCellDef="let element"> {{element.totalAserPago}} </td>
+              </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        
+          <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                         showFirstLastButtons
+                         aria-label="Select page of periodic elements">
+          </mat-paginator> -->
+        </div>    
+  </div>

@@ -1,0 +1,62 @@
+<div class="container mat-elevation-z8">
+    <h1 class="full-width">Simulacao Consorcio</h1>
+    <img class="full-width" src="assets/img/rede-sul-consorcios.svg" alt="Chamado image">
+
+     
+    <div class="modalidade">
+        <mat-form-field appearance="outline">
+           <mat-label>Selecione uma modalidade</mat-label>
+           <mat-select [(ngModel)]="parametrosrequest.modalidade" name="modalidade" [formControl]="modalidade" required>
+             <mat-option value="0">MEIA</mat-option>
+             <mat-option value="1">CHEIA</mat-option>
+           </mat-select>
+         </mat-form-field>
+      </div>
+ 
+    <form class="form">
+       <mat-form-field class="full-width" appearance="outline">
+         <mat-label>Prazo</mat-label>
+         <input [(ngModel)]="parametrosrequest.prazo" name="prazo" [formControl]="prazo" required matInput placeholder="Ex. prazo em meses">
+       </mat-form-field>
+     </form>
+
+     <form class="form">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Valor Crédito</mat-label>
+          <input [(ngModel)]="parametrosrequest.valorCredito" name="valorCredito" [formControl]="valorCredito" required matInput placeholder="Ex. valor credito da carta">
+        </mat-form-field>
+      </form>
+
+      <form class="form">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Incc</mat-label>
+          <input [(ngModel)]="parametrosrequest.incc" name="incc" [formControl]="incc" required matInput placeholder="Ex. taxa INCC em %">
+        </mat-form-field>
+      </form>
+
+      <form class="form">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Lance</mat-label>
+          <input [(ngModel)]="parametrosrequest.lance" name="lance" [formControl]="lance" required matInput placeholder="Ex. lance de compra da carta em %">
+        </mat-form-field>
+      </form>
+
+      <form class="form">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Taxa Administrativa</mat-label>
+          <input [(ngModel)]="parametrosrequest.taxaAdm" name="taxaAdm" [formControl]="taxaAdm" required matInput placeholder="Ex. Taxa Administrativa da empresa em %">
+        </mat-form-field>
+      </form>
+
+      <form class="form">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Mês Atual</mat-label>
+          <input [(ngModel)]="parametrosrequest.mesAtual" name="mesAtual" [formControl]="mesAtual" required matInput placeholder="Ex. Mes usado para simulacao de crédito, janeiro = 1 , fevereiro = 2, etc">
+        </mat-form-field>
+      </form>
+  
+      <button (click)="simularTabelaPrincipal()" [disabled]="!validaCampos()" class="full-width mat-elevation-z4" mat-raised-button color="primary">Simular Tabela Principal</button>
+      <button (click)="simularTabelaReajuste()" [disabled]="!validaCampos()" class="full-width mat-elevation-z4" mat-raised-button color="primary">Simular Tabela Reajuste</button>
+      <button (click)="simularTodasTabelas()" [disabled]="!validaCampos()" class="full-width mat-elevation-z4" mat-raised-button color="primary">Simular Ambas as Tabelas</button>
+
+</div>
