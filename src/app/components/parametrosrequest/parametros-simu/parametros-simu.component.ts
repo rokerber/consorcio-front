@@ -53,9 +53,9 @@ export class ParametrosSimuComponent implements OnInit {
      this.tabelaprincipal = resposta;
      this.simulacaoService.storeSimulationResult(this.tabelaprincipal);
      this.router.navigate(['tabelaprincipal/list']);
-     this.toastrService.success('Simulacao feita com sucesso', 'Simulacao');
+     this.toastrService.success('Simulação feita com sucesso!', 'Simulação');
     }, ex => {
-      this.toastrService.error(ex.error.error);
+      this.toastrService.error("Erro no calculo da simulação!");
     })
   }
 
@@ -64,9 +64,9 @@ export class ParametrosSimuComponent implements OnInit {
      this.tabelareajuste = resposta;
      this.simulacaoReajusteService.storeSimulationResult(this.tabelareajuste);
      this.router.navigate(['tabelareajuste/list']);
-     this.toastrService.success('Simulacao feita com sucesso', 'Simulacao');
+     this.toastrService.success('Simulação feita com sucesso', 'Simulação');
     }, ex => {
-      this.toastrService.error(ex.error.error);
+      this.toastrService.error("Erro no calculo da simulação!");
     })
   }
 
@@ -75,16 +75,16 @@ export class ParametrosSimuComponent implements OnInit {
      this.tabelaprincipal = resposta;
      this.simulacaoService.storeSimulationResult(this.tabelaprincipal);
      this.router.navigate(['tabelaprincipal/list']);
-     this.toastrService.success('Simulacao feita com sucesso', 'Simulacao');
+     this.toastrService.success('Simulação feita com sucesso', 'Simulação');
     }, ex => {
-      this.toastrService.error(ex.error.error);
+      this.toastrService.error("Erro no calculo da simulação!");
     })
 
     this.simulacaoReajusteService.simulate(this.parametrosrequest).subscribe(resposta => {
      this.tabelareajuste = resposta;
      this.simulacaoReajusteService.storeSimulationResult(this.tabelareajuste);
     }, ex => {
-      this.toastrService.error(ex.error.error);
+      this.toastrService.error("Erro no calculo da simulação!");
     })
   }
 
