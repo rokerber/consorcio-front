@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl, Validators } from '@angular/forms';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { FormControl, UntypedFormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { SimulacaoService } from 'src/app/services/simulacao.service';
@@ -7,9 +7,6 @@ import { ParametrosRequest } from '../../models/parametrosrequest';
 import { TabelaPrincipal } from '../../models/tabelaprincipal';
 import { SimulacaoReajusteService } from 'src/app/services/simulacao.reajuste.service';
 import { TabelaReajuste } from '../../models/tabelareajuste';
-import { of, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 
 
@@ -40,7 +37,7 @@ export class ParametrosSimuComponent implements OnInit {
   prazo: UntypedFormControl = new UntypedFormControl(null, [Validators.required])
   valorCredito: UntypedFormControl = new UntypedFormControl(null, [Validators.required])
   incc: UntypedFormControl = new UntypedFormControl(null, [Validators.required])
-  lance: UntypedFormControl = new UntypedFormControl(null, [Validators.required])
+  lance: UntypedFormControl = new UntypedFormControl(null)
   taxaAdm: UntypedFormControl = new UntypedFormControl(null, [Validators.required])
   mesAtual: UntypedFormControl = new UntypedFormControl(null, [Validators.required])
 
@@ -57,6 +54,9 @@ export class ParametrosSimuComponent implements OnInit {
 
 
   simularTabelaPrincipal(): void {
+    if (this.parametrosrequest.lance == '') {
+      this.parametrosrequest.lance = 0;
+    }
     this.simulacaoService.simulate(this.parametrosrequest).subscribe(resposta => {
         this.tabelaprincipal = resposta;
         this.simulacaoService.storeSimulationResult(this.tabelaprincipal);
@@ -103,8 +103,7 @@ export class ParametrosSimuComponent implements OnInit {
 
   validaCampos(): boolean {
     return this.modalidade.valid && this.prazo.valid &&
-      this.valorCredito.valid && this.incc.valid &&
-      this.lance.valid && this.taxaAdm.valid &&
+      this.valorCredito.valid && this.incc.valid && this.taxaAdm.valid &&
       this.mesAtual.valid;
   }
 }
