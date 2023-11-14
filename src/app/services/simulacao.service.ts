@@ -11,6 +11,16 @@ import { TabelaPrincipal } from '../components/models/tabelaprincipal';
 export class SimulacaoService {
 
   tabelaprincipal: TabelaPrincipal[] = []
+
+  parametrosrequest: ParametrosRequest = {
+    modalidade: '',
+    prazo: '',
+    valorCredito: '',
+    incc: '',
+    lance: '',
+    taxaAdm: '',
+    mesAtual: '',
+  }
   
   constructor(private http: HttpClient) { }
 
@@ -22,8 +32,16 @@ export class SimulacaoService {
     return this.tabelaprincipal = resposta;
   }
 
+  storeParametrosRequest(resposta: any) {
+    return this.parametrosrequest = resposta;
+  }
+
   listSimulationResult(){
     return this.tabelaprincipal;
+  }
+
+  listParametrosRequest(){
+    return this.parametrosrequest;
   }
 
 

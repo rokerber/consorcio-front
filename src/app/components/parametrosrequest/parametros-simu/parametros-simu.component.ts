@@ -50,10 +50,12 @@ export class ParametrosSimuComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-  }
+    this.parametrosrequest = this.simulacaoService.listParametrosRequest(); 
+   }
 
 
   simularTabelaPrincipal(): void {
+    this.simulacaoService.storeParametrosRequest(this.parametrosrequest);
     this.simulacaoService.simulate(this.parametrosrequest).subscribe(resposta => {
         this.tabelaprincipal = resposta;
         this.simulacaoService.storeSimulationResult(this.tabelaprincipal);
@@ -65,6 +67,7 @@ export class ParametrosSimuComponent implements OnInit {
   }
 
   simularTabelaReajuste(): void {
+    this.simulacaoReajusteService.storeParametrosRequest(this.parametrosrequest);
     this.simulacaoReajusteService.simulate(this.parametrosrequest)
       .subscribe(resposta => {
         this.tabelareajuste = resposta;
@@ -77,6 +80,8 @@ export class ParametrosSimuComponent implements OnInit {
   }
 
   simularTodasTabelas(): void {
+    this.simulacaoService.storeParametrosRequest(this.parametrosrequest);
+    this.simulacaoReajusteService.storeParametrosRequest(this.parametrosrequest);
     this.simulacaoService.simulate(this.parametrosrequest).subscribe(resposta => {
       this.tabelaprincipal = resposta;
       this.simulacaoService.storeSimulationResult(this.tabelaprincipal);

@@ -1,12 +1,47 @@
 <div class="container">
 
     <h1>Resultado Simulação Tabela Principal</h1>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Modalidade : {{retornaModalidade(parametrosrequest.modalidade)}}</mat-label>
+      <input [disabled]="true" matInput>
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Prazo : {{parametrosrequest.prazo}}</mat-label>
+      <input [disabled]="true" matInput>
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Valor Crédito : {{parametrosrequest.valorCredito}}</mat-label>
+      <input [disabled]="true" matInput>
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Incc : {{parametrosrequest.incc}}</mat-label>
+      <input [disabled]="true" matInput>
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Lance : {{parametrosrequest.lance}}</mat-label>
+      <input [disabled]="true" matInput>
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Taxa Administrativa : {{parametrosrequest.taxaAdm}}</mat-label>
+      <input [disabled]="true" matInput>
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Mês Atual : {{parametrosrequest.mesAtual}}</mat-label>
+      <input [disabled]="true" matInput>
+    </mat-form-field>
     
     <mat-form-field appearance="fill">
       <mat-label>Filter</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
     </mat-form-field>
-  
+
       <div class="mat-elevation-z8">
           <table mat-table [dataSource]="dataSource">
         

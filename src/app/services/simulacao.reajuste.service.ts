@@ -10,6 +10,17 @@ import { TabelaReajuste } from '../components/models/tabelareajuste';
 })
 export class SimulacaoReajusteService {
 
+  parametrosrequest: ParametrosRequest = {
+    modalidade: '',
+    prazo: '',
+    valorCredito: '',
+    incc: '',
+    lance: '',
+    taxaAdm: '',
+    mesAtual: '',
+  }
+  
+
   tabelareajuste: TabelaReajuste[] = []
 
   
@@ -24,8 +35,16 @@ export class SimulacaoReajusteService {
     return this.tabelareajuste = resposta;
   }
 
+  storeParametrosRequest(resposta: any) {
+    return this.parametrosrequest = resposta;
+  }
+
   listSimulationResult(){
     return this.tabelareajuste;
+  }
+
+  listParametrosRequest(){
+    return this.parametrosrequest;
   }
 
 

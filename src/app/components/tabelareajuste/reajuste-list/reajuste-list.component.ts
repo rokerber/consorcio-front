@@ -3,6 +3,7 @@ import { MatPaginator as MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { TabelaReajuste } from '../../models/tabelareajuste';
 import { SimulacaoReajusteService } from 'src/app/services/simulacao.reajuste.service';
+import { ParametrosRequest } from '../../models/parametrosrequest';
 
 @Component({
   selector: 'app-reajuste-list',
@@ -14,6 +15,15 @@ export class ReajusteListComponent implements OnInit {
   ELEMENT_DATA: TabelaReajuste[] = []
   FILTERED_DATA: TabelaReajuste[] = []
 
+  parametrosrequest: ParametrosRequest = {
+    modalidade: '',
+    prazo: '',
+    valorCredito: '',
+    incc: '',
+    lance: '',
+    taxaAdm: '',
+    mesAtual: '',
+  }
   
   displayedColumns: string[] = ['mes', 'ano', 'credito', 'saldoDevedor', 'acumuladoMeiaParcela', 'meiaParcela', 'anual', 'parcelaCheia',
   'anualCheia','acumuladoParcelaCheia','totalAserPago'];
@@ -27,7 +37,12 @@ export class ReajusteListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getParametros();
     this.findAll();
+  }
+
+  getParametros(): void {
+    this.parametrosrequest = this.simulacaoReajusteService.listParametrosRequest();
   }
 
   findAll(): void {
@@ -42,5 +57,14 @@ export class ReajusteListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  retornaModalidade(modalidade: any): string {
+    if (modalidade == '') {
+      return '';
+    } else if (modalidade == 0){
+      return 'MEIA';
+    } else {
+      return 'CHEIA';
+    }
+  }
 
 }

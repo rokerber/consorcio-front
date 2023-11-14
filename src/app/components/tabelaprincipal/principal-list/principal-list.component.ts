@@ -3,6 +3,7 @@ import { MatPaginator as MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { SimulacaoService } from 'src/app/services/simulacao.service';
 import { TabelaPrincipal } from '../../models/tabelaprincipal';
+import { ParametrosRequest } from '../../models/parametrosrequest';
 
 @Component({
   selector: 'app-principal-list',
@@ -14,7 +15,16 @@ export class PrincipalListComponent implements OnInit {
   ELEMENT_DATA: TabelaPrincipal[] = []
   FILTERED_DATA: TabelaPrincipal[] = []
 
-  
+  parametrosrequest: ParametrosRequest = {
+    modalidade: '',
+    prazo: '',
+    valorCredito: '',
+    incc: '',
+    lance: '',
+    taxaAdm: '',
+    mesAtual: '',
+  }
+
   displayedColumns: string[] = ['cota', 'mesContemplacao', 'formaContemplacao', 'creditoAtualizado', 'investimentoMensalCorrigido',
    'valorInvestidoCorrigido', 'parcelaPosContemplacao', 'valorVenda','ir','lucroLiquido','retornSobCapitalInvest','estrategia'];
   dataSource = new MatTableDataSource<TabelaPrincipal>(this.ELEMENT_DATA);
@@ -26,7 +36,12 @@ export class PrincipalListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getParametros();
     this.findAll();
+  }
+
+  getParametros(): void {
+    this.parametrosrequest = this.simulacaoService.listParametrosRequest();
   }
 
   findAll(): void {
@@ -39,6 +54,16 @@ export class PrincipalListComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  retornaModalidade(modalidade: any): string {
+    if (modalidade == '') {
+      return '';
+    } else if (modalidade == 0){
+      return 'MEIA';
+    } else {
+      return 'CHEIA';
+    }
   }
 
 }
