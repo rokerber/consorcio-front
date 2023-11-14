@@ -54,9 +54,6 @@ export class ParametrosSimuComponent implements OnInit {
 
 
   simularTabelaPrincipal(): void {
-    if (this.parametrosrequest.lance == '') {
-      this.parametrosrequest.lance = 0;
-    }
     this.simulacaoService.simulate(this.parametrosrequest).subscribe(resposta => {
         this.tabelaprincipal = resposta;
         this.simulacaoService.storeSimulationResult(this.tabelaprincipal);
