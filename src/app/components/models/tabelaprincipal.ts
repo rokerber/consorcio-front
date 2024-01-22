@@ -1,6 +1,6 @@
 export interface TabelaPrincipal {
     cota:                        number;
-    mesContemplacao:             number;
+    mesContemplacao:             any;
     formaContemplacao:           string;
     creditoAtualizado:           number;
     investimentoMensalCorrigido: number;

@@ -36,8 +36,6 @@ import { LoginComponent } from './components/login/login.component';
 import { ToastrModule } from 'ngx-toastr';
 import { AuthInterceptorProvider } from './interceptors/auth.interceptor';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
-import { PrincipalListComponent } from './components/tabelaprincipal/principal-list/principal-list.component';
-import { ReajusteListComponent } from './components/tabelareajuste/reajuste-list/reajuste-list.component';
 import { ParametrosSimuComponent } from './components/parametrosrequest/parametros-simu/parametros-simu.component';
 
 
@@ -49,8 +47,6 @@ import { ParametrosSimuComponent } from './components/parametrosrequest/parametr
     HomeComponent,
     HeaderComponent,
     LoginComponent,
-    PrincipalListComponent,
-    ReajusteListComponent,
     ParametrosSimuComponent,
   ],
   imports: [

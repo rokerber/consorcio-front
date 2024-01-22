@@ -3,15 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API_CONFIG } from '../config/api.config';
 import { ParametrosRequest } from '../components/models/parametrosrequest';
-import { TabelaPrincipal } from '../components/models/tabelaprincipal';
-import { SomaSimulacao } from '../components/models/somasimulacao';
+import { TabelaAnual } from '../components/models/tabelaanual';
+import { TabelaMensal } from '../components/models/tabelamensal';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SimulacaoService {
-
-  tabelaprincipal: TabelaPrincipal[] = []
+export class SimulacaoMensalService {
 
   parametrosrequest: ParametrosRequest = {
     cota: '',
@@ -25,22 +23,20 @@ export class SimulacaoService {
     mesAtual: '',
   }
   
+  tabelaMensal: TabelaMensal[] = []
+  
   constructor(private http: HttpClient) { }
 
-  simulate(parametrosRequest: ParametrosRequest): Observable<TabelaPrincipal[]> {
-    return this.http.post<TabelaPrincipal[]>(`${API_CONFIG.baseUrl}/simulacoes`, parametrosRequest)  
-  }
-
-  somaSimulacao(): Observable<SomaSimulacao> {
-    return this.http.get<SomaSimulacao>(`${API_CONFIG.baseUrl}/simulacoes/soma`)  
+  simulate(parametrosRequest: ParametrosRequest): Observable<TabelaMensal[]> {
+    return this.http.post<TabelaMensal[]>(`${API_CONFIG.baseUrl}/simulacoes/mensal`, parametrosRequest)  
   }
 
   storeSimulationResult(resposta: any) {
-    return this.tabelaprincipal = resposta;
+    return this.tabelaMensal = resposta;
   }
 
   listSimulationResult(){
-    return this.tabelaprincipal;
+    return this.tabelaMensal;
   }
 
   listParametrosRequest(){

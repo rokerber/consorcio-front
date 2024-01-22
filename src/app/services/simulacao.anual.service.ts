@@ -3,14 +3,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API_CONFIG } from '../config/api.config';
 import { ParametrosRequest } from '../components/models/parametrosrequest';
-import { TabelaReajuste } from '../components/models/tabelareajuste';
+import { TabelaAnual } from '../components/models/tabelaanual';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SimulacaoReajusteService {
+export class SimulacaoAnualService {
 
   parametrosrequest: ParametrosRequest = {
+    cota: '',
+    mesContemplacaoList: [],
     modalidade: '',
     prazo: '',
     valorCredito: '',
@@ -21,18 +23,18 @@ export class SimulacaoReajusteService {
   }
   
 
-  tabelareajuste: TabelaReajuste[] = []
+  tabelaAnual: TabelaAnual[] = []
 
   
   constructor(private http: HttpClient) { }
 
 
-  simulate(parametrosRequest: ParametrosRequest): Observable<TabelaReajuste[]> {
-    return this.http.post<TabelaReajuste[]>(`${API_CONFIG.baseUrl}/simulacoes/reajuste`, parametrosRequest)  
+  simulate(parametrosRequest: ParametrosRequest): Observable<TabelaAnual[]> {
+    return this.http.post<TabelaAnual[]>(`${API_CONFIG.baseUrl}/simulacoes/anual`, parametrosRequest)  
   }
 
   storeSimulationResult(resposta: any) {
-    return this.tabelareajuste = resposta;
+    return this.tabelaAnual = resposta;
   }
 
   storeParametrosRequest(resposta: any) {
@@ -40,7 +42,7 @@ export class SimulacaoReajusteService {
   }
 
   listSimulationResult(){
-    return this.tabelareajuste;
+    return this.tabelaAnual;
   }
 
   listParametrosRequest(){

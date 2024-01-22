@@ -1,4 +1,4 @@
-.container {
+.containerSimulacao {
    width: 45%;
    margin: auto auto 3rem auto;
    padding: 1rem;
@@ -35,3 +35,88 @@ p {
    margin-top: 3rem;
    opacity: .5;
 }
+
+
+
+.containerTabelaPrincipal {
+   width: 90%;
+   margin: auto;
+}
+
+.tabelaprincipal {
+   width: 100%;
+   table-layout:fixed;
+   margin-bottom: 2rem;
+}
+
+th { 
+   overflow: hidden; 
+   text-overflow: ellipsis; 
+   word-wrap: break-word;
+}
+
+mat-form-field {
+   width: 100%;
+}
+
+h1 {
+   width: 100%;
+   text-align: center;
+   margin-bottom: 2rem;
+}
+
+
+
+.containerTabelaAnual {
+   width: 90%;
+   margin: auto;
+}
+
+.containerTabelaMensal {
+   width: 90%;
+   margin: auto;
+}
+
+
+.tabelaAnual {
+   width: 100%;
+   table-layout:fixed;
+   margin-bottom: 2rem;
+}
+
+.tabelaMensal {
+   width: 100%;
+   table-layout:fixed;
+   margin-bottom: 2rem;
+}
+
+th { 
+   overflow: hidden; 
+   text-overflow: ellipsis; 
+   word-wrap: break-word;
+}
+
+
+h1 {
+   width: 100%;
+   text-align: center;
+   margin-bottom: 2rem;
+}
+
+
+
+.tabelas {
+   display:inline-block;
+   padding: .3em 1.2em;
+   margin:5px;
+}
+
+.buttons{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   margin-bottom: 2rem;
+   
+}
+
+

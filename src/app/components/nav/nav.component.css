@@ -34,4 +34,6 @@ label {
     margin: 1rem 0 0 1rem; /* em sequencia: parte de cima, lateral direita, parte de baixo, lateral esquerda */
     /* auto = 0 */
     background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgb(102, 0, 17) 0%, rgb(14, 173, 236)0%);
+    position: fixed;
 }
+
