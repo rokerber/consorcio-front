@@ -1,0 +1,163 @@
+<div class="pagina-container">
+  <!-- Painel da Esquerda: Parâmetros de Entrada -->
+  <div class="parametros-painel">
+    <form [formGroup]="simulationForm" (ngSubmit)="onSubmit()">
+      <!-- Card para Parâmetros Principais -->
+      <div class="card" formGroupName="parametrosPrincipais">
+        <h3>Parâmetros Principais</h3>
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="valorCredito">Valor do Crédito (R$)</label>
+            <input id="valorCredito" type="number" formControlName="valorCredito">
+          </div>
+          <div class="form-field">
+            <label for="prazo">Prazo (meses)</label>
+            <input id="prazo" type="number" formControlName="prazo">
+          </div>
+          <div class="form-field">
+            <label for="taxaAdm">Taxa Adm. (%)</label>
+            <input id="taxaAdm" type="number" formControlName="taxaAdm">
+          </div>
+          <div class="form-field">
+            <label for="incc">INCC Mensal (%)</label>
+            <input id="incc" type="number" formControlName="incc">
+          </div>
+          <div class="form-field">
+            <label for="modalidade">Modalidade</label>
+            <select id="modalidade" formControlName="modalidade">
+              <option value="CHEIA">Parcela Cheia</option>
+              <option value="MEIA">Meia Parcela</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="lance">Lance Fixo (%)</label>
+            <input id="lance" type="number" formControlName="lance">
+          </div>
+          <div class="form-field">
+            <label for="selic">SELIC/CDI Anual (%)</label>
+            <input id="selic" type="number" formControlName="selic">
+          </div>
+          <!-- NOVOS CAMPOS DE INPUT ADICIONADOS -->
+          <div class="form-field">
+            <label for="percentualVendaAte30">% Venda (≤ 30 meses)</label>
+            <input id="percentualVendaAte30" type="number" formControlName="percentualVendaAte30">
+          </div>
+          <div class="form-field">
+            <label for="percentualVendaApos30">% Venda (> 30 meses)</label>
+            <input id="percentualVendaApos30" type="number" formControlName="percentualVendaApos30">
+          </div>
+        </div>
+      </div>
+
+      <!-- Card para Cenários de Contemplação Dinâmicos -->
+      <div class="card" formArrayName="cenarios">
+        <h3>Cenários de Contemplação</h3>
+        <div *ngFor="let cenario of cenarios.controls; let i = index" [formGroupName]="i" class="cenario-linha">
+          <div class="form-field">
+            <label for="mesContemplacao-{{ i }}">Cenário {{ i + 1 }} (Mês)</label>
+            <input id="mesContemplacao-{{ i }}" type="number" formControlName="mesContemplacao">
+          </div>
+          <button type="button" (click)="removerCenario(i)" class="botao-remover" [disabled]="cenarios.length <= 1">
+            &times;
+          </button>
+        </div>
+        <button type="button" (click)="adicionarCenario()" class="botao-adicionar">+ Adicionar Cenário</button>
+      </div>
+
+      <button type="submit" [disabled]="!simulationForm.valid" class="botao-simular">
+        <span *ngIf="!isLoading">Simular Cenários</span>
+        <span *ngIf="isLoading">A calcular...</span>
+      </button>
+
+    </form>
+  </div>
+
+  <!-- Painel da Direita: Resultados -->
+  <div class="resultados-painel">
+    <div *ngIf="!isLoading && !simulationResult && !error">
+      <div class="card card-placeholder">
+        Preencha os parâmetros e clique em simular para ver os resultados.
+      </div>
+    </div>
+    <div *ngIf="error" class="card card-erro">{{ error }}</div>
+    <div *ngIf="simulationResult && simulationResult.length > 0" class="card">
+      <h3>Resultado da Simulação Comparativa</h3>
+      <div class="tabela-container">
+        <table>
+          <thead>
+          <tr>
+            <th class="text-center">Cota</th>
+            <th class="text-center">Mês Cont.</th>
+            <th class="text-right">Crédito Atualizado</th>
+            <th class="text-right">Invest. Mensal</th>
+            <th class="text-right">Total Investido</th>
+            <th class="text-right">Lucro Líquido</th>
+            <th class="text-right">Retorno</th>
+            <th class="text-center">Recomendação</th>
+            <th class="text-center">Ações</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let simulacao of simulationResult">
+            <td class="text-center">{{ simulacao.cota }}</td>
+            <td class="text-center">{{ simulacao.mesContemplacao }}</td>
+            <td class="text-right">{{ simulacao.creditoAtualizado | currency:'BRL' }}</td>
+            <td class="text-right">{{ simulacao.investimentoMensalCorrigido | currency:'BRL' }}</td>
+            <td class="text-right">{{ simulacao.valorInvestidoCorrigido | currency:'BRL' }}</td>
+            <td class="text-right" [ngClass]="simulacao.lucroLiquido >= 0 ? 'lucro-positivo' : 'lucro-negativo'">
+              {{ simulacao.lucroLiquido | currency:'BRL' }}
+            </td>
+            <td class="text-right">{{ simulacao.retornSobCapitalInvest }}</td>
+            <td class="text-center">{{ simulacao.estrategia }}</td>
+            <td class="text-center">
+              <button (click)="onViewDetails(simulacao)" class="botao-detalhes">Ver Detalhes</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div *ngIf="simulationResult && simulationResult.length > 0" class="card">
+      <h3>Análise Gráfica</h3>
+      <div class="grafico-container">
+        <canvas id="comparisonChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal para Detalhes Mensais -->
+<div *ngIf="isModalVisible" class="modal-backdrop">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4>Detalhes Mensais (Cenário {{ selectedSimulacao?.cota }})</h4>
+      <button (click)="closeModal()" class="botao-fechar">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="isModalLoading">A carregar detalhes...</div>
+      <div *ngIf="modalError" class="card-erro">{{ modalError }}</div>
+      <div *ngIf="monthlyDetails" class="tabela-container tabela-modal">
+        <table>
+          <thead>
+          <tr>
+            <th class="text-center">Mês</th>
+            <th class="text-right">Crédito Atualizado</th>
+            <th class="text-right">Invest. Mensal</th>
+            <th class="text-right">Total Investido</th>
+            <th class="text-right">Saldo Devedor</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let detalhe of monthlyDetails">
+            <td class="text-center">{{ detalhe.mes }}</td>
+            <td class="text-right">{{ detalhe.creditoAtualizadoMensal | currency:'BRL' }}</td>
+            <td class="text-right">{{ detalhe.investimentoMensalCorrigido | currency:'BRL' }}</td>
+            <td class="text-right">{{ detalhe.valorInvestidoCorrigido | currency:'BRL' }}</td>
+            <td class="text-right">{{ detalhe.saldoDevedor | currency:'BRL' }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

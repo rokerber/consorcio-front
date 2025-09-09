@@ -1,0 +1,21 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { ParametroRequest, Simulacao, TabelaMensal } from '../models';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ApiService {
+
+  private apiUrl = 'https://da06de6d525b.ngrok-free.app';
+
+  constructor(private http: HttpClient) { }
+  simularConsorcio(dadosDoFormulario: ParametroRequest): Observable<Simulacao[]> {
+    return this.http.post<Simulacao[]>(`${this.apiUrl}/api/simulacoes`, dadosDoFormulario);
+  }
+  simularMensal(dadosDoFormulario: ParametroRequest): Observable<TabelaMensal[]> {
+    return this.http.post<TabelaMensal[]>(`${this.apiUrl}/api/simulacoes/mensal`, dadosDoFormulario);
+  }
+}
+
