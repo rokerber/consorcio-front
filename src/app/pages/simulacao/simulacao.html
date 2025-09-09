@@ -18,10 +18,13 @@
             <label for="taxaAdm">Taxa Adm. (%)</label>
             <input id="taxaAdm" type="number" formControlName="taxaAdm">
           </div>
+
+          <!-- CAMPO DE ÍNDICE SIMPLIFICADO -->
           <div class="form-field">
-            <label for="incc">INCC Mensal (%)</label>
-            <input id="incc" type="number" formControlName="incc">
+            <label for="valorIndice">Índice Anual (INCC/INPC) %</label>
+            <input id="valorIndice" type="number" formControlName="valorIndice">
           </div>
+
           <div class="form-field">
             <label for="modalidade">Modalidade</label>
             <select id="modalidade" formControlName="modalidade">
@@ -37,7 +40,6 @@
             <label for="selic">SELIC/CDI Anual (%)</label>
             <input id="selic" type="number" formControlName="selic">
           </div>
-          <!-- NOVOS CAMPOS DE INPUT ADICIONADOS -->
           <div class="form-field">
             <label for="percentualVendaAte30">% Venda (≤ 30 meses)</label>
             <input id="percentualVendaAte30" type="number" formControlName="percentualVendaAte30">
@@ -72,7 +74,7 @@
     </form>
   </div>
 
-  <!-- Painel da Direita: Resultados -->
+  <!-- Painel da Direita: Resultados (sem alterações) -->
   <div class="resultados-painel">
     <div *ngIf="!isLoading && !simulationResult && !error">
       <div class="card card-placeholder">
@@ -125,7 +127,7 @@
     </div>
   </div>
 </div>
-<!-- Modal para Detalhes Mensais -->
+<!-- Modal para Detalhes Mensais (sem alterações) -->
 <div *ngIf="isModalVisible" class="modal-backdrop">
   <div class="modal-content">
     <div class="modal-header">

@@ -36,11 +36,13 @@ export class SimulacaoComponent implements OnInit {
         valorCredito: [100000, [Validators.required, Validators.min(1000)]],
         prazo: [120, [Validators.required, Validators.min(12)]],
         taxaAdm: [15, [Validators.required, Validators.min(0)]],
-        incc: [0.7, [Validators.required, Validators.min(0)]],
+
+        // VOLTAMOS A TER APENAS O CAMPO 'valorIndice'
+        valorIndice: [0.7, [Validators.required, Validators.min(0)]],
+
         modalidade: ['CHEIA', Validators.required],
         lance: [0],
         selic: [10.5],
-        // NOVOS FORM CONTROLS ADICIONADOS COM VALORES PADRÃO
         percentualVendaAte30: [15, [Validators.required, Validators.min(0)]],
         percentualVendaApos30: [20, [Validators.required, Validators.min(0)]]
       }),
@@ -87,12 +89,14 @@ export class SimulacaoComponent implements OnInit {
       valorCredito: Number(principais.valorCredito),
       prazo: Number(principais.prazo),
       taxaAdm: Number(principais.taxaAdm),
-      incc: Number(principais.incc),
+
+      // ENVIAMOS O CAMPO 'valorIndice' AGORA
+      valorIndice: Number(principais.valorIndice),
+
       modalidade: principais.modalidade,
       lance: Number(principais.lance || 0),
       mesContemplacaoList: mesesContemplacao,
       selic: Number(principais.selic || 10.5),
-      // NOVOS CAMPOS ENVIADOS PARA A API
       percentualVendaAte30: Number(principais.percentualVendaAte30),
       percentualVendaApos30: Number(principais.percentualVendaApos30)
     };
@@ -172,13 +176,14 @@ export class SimulacaoComponent implements OnInit {
       valorCredito: Number(principais.valorCredito),
       prazo: Number(principais.prazo),
       taxaAdm: Number(principais.taxaAdm),
-      incc: Number(principais.incc),
+
+      valorIndice: Number(principais.valorIndice),
+
       modalidade: principais.modalidade,
       mesContemplacaoList: [simulacao.mesContemplacao],
       selic: Number(principais.selic || 10.5),
       lance: Number(principais.lance || 0),
       mesAtual: new Date().getMonth() + 1,
-      // NOVOS CAMPOS ENVIADOS TAMBÉM NA CHAMADA DE DETALHES
       percentualVendaAte30: Number(principais.percentualVendaAte30),
       percentualVendaApos30: Number(principais.percentualVendaApos30)
     };

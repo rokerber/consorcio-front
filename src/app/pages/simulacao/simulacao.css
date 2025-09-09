@@ -10,7 +10,7 @@
   min-width: 350px;
 }
 
-/* NOVO: Transforma o formulário num contentor flex para aplicar o espaçamento */
+/* Transforma o formulário num contentor flex para aplicar o espaçamento */
 .parametros-painel form {
   display: flex;
   flex-direction: column;
@@ -22,7 +22,7 @@
   min-width: 600px;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* Adiciona espaço entre os cartões no painel direito */
+  gap: 1.5rem;
 }
 
 .card {
@@ -46,12 +46,43 @@ h3 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1rem;
+  align-items: end; /* Alinha os itens na parte inferior */
 }
 
 .form-field {
   display: flex;
   flex-direction: column;
 }
+
+/* NOVO: Estilos para agrupar campos de input lado a lado */
+.campo-agrupado {
+  grid-column: span 2; /* Faz o grupo ocupar duas colunas no grid */
+  display: flex;
+  gap: 1rem;
+}
+
+.form-field-metade {
+  flex: 1; /* Faz com que cada metade ocupe o mesmo espaço */
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field-metade label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #34495e;
+}
+
+.form-field-metade input, .form-field-metade select {
+  padding: 0.75rem;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+/* FIM DOS NOVOS ESTILOS */
 
 .form-field label {
   margin-bottom: 0.5rem;
@@ -76,7 +107,6 @@ h3 {
   box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
-/* ESTILOS PARA CENÁRIOS DINÂMICOS */
 .cenario-linha {
   display: flex;
   align-items: flex-end;
@@ -101,7 +131,7 @@ h3 {
   color: white;
   font-size: 1.2rem;
   line-height: 1;
-  height: 46px; /* Mesma altura que os inputs */
+  height: 46px;
 }
 
 .botao-remover:hover {
@@ -125,7 +155,6 @@ h3 {
   background-color: rgba(52, 152, 219, 0.1);
 }
 
-/* BOTÃO DE SIMULAÇÃO PRINCIPAL */
 .botao-simular {
   width: 100%;
   padding: 1rem;
@@ -148,7 +177,6 @@ h3 {
   cursor: not-allowed;
 }
 
-/* ESTILOS DO PAINEL DE RESULTADOS */
 .card-placeholder {
   color: #7f8c8d;
   text-align: center;
@@ -211,13 +239,11 @@ tbody tr:hover {
   background-color: #218838;
 }
 
-/* ESTILOS DO GRÁFICO */
 .grafico-container {
   position: relative;
   height: 400px;
 }
 
-/* ESTILOS DO MODAL */
 .modal-backdrop {
   position: fixed;
   top: 0;
