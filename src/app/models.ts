@@ -8,9 +8,12 @@ export interface ParametroRequest {
   incc: number;
   modalidade: string;
   mesContemplacaoList: number[];
+
+  // NOVOS CAMPOS ADICIONADOS
+  percentualVendaAte30: number;
+  percentualVendaApos30: number;
+
   lance?: number;
-  recompra30?: number;
-  acima30?: number;
   selic?: number;
   mesAtual?: number;
 }
@@ -29,7 +32,7 @@ export interface Simulacao {
   lucroLiquido: number;
   retornSobCapitalInvest: string;
   estrategia: string;
-  rendimentoCdi: number; // NOVO CAMPO ADICIONADO
+  rendimentoCdi: number;
 }
 
 // Corresponde ao TabelaMensalDTO.java
