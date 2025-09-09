@@ -8,7 +8,7 @@ import { ParametroRequest, Simulacao, TabelaMensal } from '../models';
 })
 export class ApiService {
 
-  private apiUrl = 'https://da06de6d525b.ngrok-free.app';
+  private apiUrl = 'https://consorcio-api.sp1.br.saveincloud.net.br';
 
   constructor(private http: HttpClient) { }
   simularConsorcio(dadosDoFormulario: ParametroRequest): Observable<Simulacao[]> {
