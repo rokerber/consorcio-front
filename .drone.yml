@@ -1,0 +1,64 @@
+kind: pipeline
+type: docker
+name: consorcio-front-pipeline
+
+trigger:
+  branch:
+    - main
+  event:
+    - push
+    - pull_request
+
+steps:
+  # Passo 1: Instalar dependências com yarn
+  - name: install-dependencies
+    image: node:20-alpine # Usando a mesma versão do seu Dockerfile
+    commands:
+      # Trocado 'npm install' por 'yarn install'
+      - yarn install --frozen-lockfile
+    volumes:
+      - name: cache
+        path: /drone/src/node_modules
+
+  # Passo 2: Rodar testes e lint com yarn
+  - name: test-and-lint
+    image: node:20-alpine
+    depends_on: [install-dependencies]
+    commands:
+      # Adapte os comandos se você usar nomes diferentes nos seus scripts
+      - yarn lint
+      - yarn test -- --watch=false --browsers=ChromeHeadless
+    volumes:
+      - name: cache
+        path: /drone/src/node_modules
+
+  # Passo 3: Fazer o build de produção (agora apenas no Dockerfile)
+  # Este passo pode ser removido do .drone.yml, pois o build agora acontece
+  # dentro do passo 'build-and-publish-image' ao construir o Dockerfile.
+  # Removê-lo economiza tempo, pois evita construir a aplicação duas vezes.
+
+  # Passo 4: Construir e publicar a imagem Docker com Nginx
+  - name: build-and-publish-image
+    image: plugins/docker
+    # Removido depends_on, pois o build está contido aqui agora
+    settings:
+      dockerfile: Dockerfile
+      registry: docker.io
+      repo: seu-usuario-docker/consorcio-front
+      tags:
+        - latest
+        - ${DRONE_COMMIT_SHA:0:7}
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    when:
+      branch:
+        - main
+      event:
+        - push
+
+volumes:
+  - name: cache
+    host:
+      path: /tmp/cache/${DRONE_REPO_NAME}
