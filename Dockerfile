@@ -1,4 +1,4 @@
-# --- ESTÁGIO 1: Build com Node.js ---
+# --- ESTÁGIO 1: Build com Node.js (Idêntico) ---
 FROM node:20-alpine AS builder
 
 WORKDIR /app
@@ -9,14 +9,18 @@ RUN yarn install
 COPY . .
 RUN npx ng build
 
-# --- ESTÁGIO 2: Servidor com Nginx ---
-FROM nginx:stable-alpine
+# --- ESTÁGIO 2: Servidor de Produção Limpo ---
+# Começamos com uma imagem Alpine Linux limpa, a menor possível.
+FROM alpine:latest
 
-# AQUI ESTÁ A CORREÇÃO: o caminho agora aponta para a pasta correta
-COPY --from=builder /app/dist/consorcio-front /usr/share/nginx/html
+# Instalamos o Nginx e removemos o cache para manter a imagem pequena
+RUN apk add --no-cache nginx
 
-# Copia nossa configuração customizada do Nginx
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copia os arquivos da nossa aplicação Angular para a pasta padrão do Nginx no Alpine
+COPY --from=builder /app/dist/consorcio-front /var/www/localhost/htdocs
 
-# Expõe a porta 80, que é a porta padrão do Nginx
-EXPOSE 80
+# Copia nossa configuração customizada do Nginx, sobrescrevendo a padrão.
+COPY nginx.conf /etc/nginx/http.d/default.conf
+
+# Comando para iniciar o Nginx em modo "foreground" (não como daemon)
+CMD ["nginx", "-g", "daemon off;"]
