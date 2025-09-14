@@ -43,9 +43,9 @@ steps:
         - latest
         - ${DRONE_COMMIT_SHA:0:7}
       username:
-        from_secret: kerber
+        from_secret: docker_username
       password:
-        from_secret: rokt
+        from_secret: docker_password
     when:
       branch:
         - main
