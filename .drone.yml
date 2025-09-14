@@ -32,19 +32,13 @@ steps:
       - name: cache
         path: /drone/src/node_modules
 
-  # Passo 3: Fazer o build de produção (agora apenas no Dockerfile)
-  # Este passo pode ser removido do .drone.yml, pois o build agora acontece
-  # dentro do passo 'build-and-publish-image' ao construir o Dockerfile.
-  # Removê-lo economiza tempo, pois evita construir a aplicação duas vezes.
-
   # Passo 4: Construir e publicar a imagem Docker com Nginx
   - name: build-and-publish-image
     image: plugins/docker
-    # Removido depends_on, pois o build está contido aqui agora
     settings:
       dockerfile: Dockerfile
       registry: docker.io
-      repo: seu-usuario-docker/consorcio-front
+      repo: k3rb3rdock/consorcio-front
       tags:
         - latest
         - ${DRONE_COMMIT_SHA:0:7}
