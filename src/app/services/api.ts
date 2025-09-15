@@ -9,7 +9,7 @@ import { ParametroRequest, Simulacao, TabelaMensal } from '../models';
 export class ApiService {
 
   // private apiUrl = 'http://192.168.40.70:30090/consorcio-api';
-  private apiUrl = 'https://counties-glen-neither-warranty.trycloudflare.com';
+  private apiUrl = 'https://counties-glen-neither-warranty.trycloudflare.com/consorcio-api';
 
 
   constructor(private http: HttpClient) { }
