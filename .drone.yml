@@ -52,6 +52,22 @@ steps:
       event:
         - push
 
+  - name: deploy-to-k8s
+    image: appleboy/drone-kubectl
+    settings:
+      kube_config:
+        from_secret: KUBE_CONFIG
+      # Aplica os manifestos do ambiente de desenvolvimento
+      commands:
+        - kubectl apply -f k8s/dev.yaml
+        # Substitui o placeholder da imagem no deployment pela imagem que acabamos de construir
+        - kubectl set image deployment/consorcio-front-deployment consorcio-front-container=k3rb3rdock/consorcio-front:${DRONE_COMMIT_SHA:0:7} -n dev
+    when:
+      branch:
+        - main
+      event:
+        - push
+
 volumes:
   - name: cache
     host:
