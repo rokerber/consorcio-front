@@ -20,6 +20,7 @@ steps:
       - name: cache
         path: /drone/src/node_modules
 
+
   # Passo 2: Rodar testes e lint com yarn
   - name: test-and-lint
     image: node:20-alpine
