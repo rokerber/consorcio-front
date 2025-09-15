@@ -25,6 +25,7 @@ steps:
       password:
         from_secret: docker_password
 
+
   - name: deploy-to-k8s
     image: alpine/k8s:1.29.2  # Imagem oficial e confiável
     environment:
