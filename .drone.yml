@@ -26,10 +26,11 @@ steps:
         from_secret: docker_password
 
   - name: deploy-to-k8s
-    image: appleboy/drone-kubectl # Esta imagem pode dar problemas de pull, como você viu.
-    settings:
-      kube_config:
-        from_secret: KUBE_CONFIG
-      commands:
-        # O 'set image' é a forma correta de atualizar um deployment existente.
-        - kubectl set image deployment/consorcio-front-deployment consorcio-front-container=k3rb3rdock/consorcio-front:${DRONE_COMMIT_SHA:0:8} -n dev
+    image: alpine/k8s:1.29.2  # Imagem oficial e confiável
+    environment:
+      KUBE_CONFIG:
+        from_secret: kube_config  # Corrigir o nome do secret também
+    commands:
+      - mkdir -p ~/.kube
+      - echo "$KUBE_CONFIG" > ~/.kube/config
+      - kubectl set image deployment/consorcio-front-deployment consorcio-front-container=k3rb3rdock/consorcio-front:${DRONE_COMMIT_SHA:0:8} -n dev
