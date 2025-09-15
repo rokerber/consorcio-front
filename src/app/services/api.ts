@@ -8,7 +8,7 @@ import { ParametroRequest, Simulacao, TabelaMensal } from '../models';
 })
 export class ApiService {
 
-  private apiUrl = '/consorcio-api';
+  private apiUrl = 'http://192.168.40.70:30090/consorcio-api';
 
   constructor(private http: HttpClient) { }
   simularConsorcio(dadosDoFormulario: ParametroRequest): Observable<Simulacao[]> {
