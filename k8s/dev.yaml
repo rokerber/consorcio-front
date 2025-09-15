@@ -1,10 +1,8 @@
-# --- Namespace ---
 apiVersion: v1
 kind: Namespace
 metadata:
   name: dev
 ---
-# --- DEPLOYMENT DA API ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -22,51 +20,10 @@ spec:
     spec:
       containers:
         - name: consorcio-front-container
-          # Esta linha será substituída pelo pipeline!
-          image: consorcio-front:placeholder
-          imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 8080
----
-# --- SERVICE DA API (INTERNO) ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: consorcio-front-service
-  namespace: dev
-spec:
-  selector:
-    app: consorcio-front
-  ports:
-    - protocol: TCP
-      port: 8080
-      targetPort: 8080
-  type: ClusterIP
----
-# --- DEPLOYMENT DO FRONTEND ---
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: consorcio-front-deployment
-  namespace: dev
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: consorcio-front
-  template:
-    metadata:
-      labels:
-        app: consorcio-front
-    spec:
-      containers:
-        - name: consorcio-front-container
-          image: consorcio-front:0.0.1
-          imagePullPolicy: IfNotPresent
+          image: k3rb3rdock/consorcio-front:initial # Uma imagem placeholder inicial
           ports:
             - containerPort: 80
 ---
-# --- SERVICE DO FRONTEND (A NOSSA PONTE!) ---
 apiVersion: v1
 kind: Service
 metadata:
@@ -79,22 +36,5 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-      nodePort: 30082 # <-- A porta que abrimos no nosso "túnel"
-  type: NodePort # <-- O tipo de serviço que nos dá acesso externo direto
-
-# Adicione este service no seu k8s/dev.yaml
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: consorcio-front-nodeport
-  namespace: dev
-spec:
-  selector:
-    app: consorcio-front
-  ports:
-    - protocol: TCP
-      port: 8080
-      targetPort: 8080
-      nodePort: 30091  # Escolha uma porta livre
+      nodePort: 30082 # A porta que abriremos para o mundo exterior
   type: NodePort
