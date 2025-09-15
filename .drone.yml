@@ -2,69 +2,68 @@ kind: pipeline
 type: docker
 name: consorcio-front-pipeline
 
-# Gatilho: Executa em pushes para a branch 'main' e em qualquer pull request.
 trigger:
   branch:
     - main
   event:
     - push
     - pull_request
-    - custom
 
 steps:
-  # Passo 1: Construir e testar a aplicação Java
-  - name: build-and-test
-    image: maven:3.8-openjdk-17-slim # Imagem com Maven e Java 17
+  # Passo 1: Instalar dependências com yarn
+  - name: install-dependencies
+    image: node:20-alpine # Usando a mesma versão do seu Dockerfile
     commands:
-      - mvn clean install
+      # Trocado 'npm install' por 'yarn install'
+      - yarn install --frozen-lockfile
+    volumes:
+      - name: cache
+        path: /drone/src/node_modules
 
-  # Passo 2: Construir e publicar a imagem Docker
+
+  # Passo 2: Rodar testes e lint com yarn
+  - name: test-and-lint
+    image: node:20-alpine
+    depends_on: [install-dependencies]
+    commands:
+      # Adapte os comandos se você usar nomes diferentes nos seus scripts
+      - yarn lint
+      - yarn test -- --watch=false --browsers=ChromeHeadless
+    volumes:
+      - name: cache
+        path: /drone/src/node_modules
+
+  # Passo 4: Construir e publicar a imagem Docker com Nginx
   - name: build-and-publish-image
     image: plugins/docker
     settings:
+      dockerfile: Dockerfile
       registry: docker.io
-      # Nome do repositório da imagem. Ex: "username/consorcio-front"
       repo: k3rb3rdock/consorcio-front
-      # Tags da imagem. 'latest' e o hash do commit são boas práticas.
       tags:
         - latest
         - ${DRONE_COMMIT_SHA:0:7}
-      # Usuário e senha para o registry, configurados como "secrets" no Drone
       username:
         from_secret: docker_username
       password:
         from_secret: docker_password
-    # Este passo só executa em pushes para a branch 'main', e não em pull requests.
     when:
       branch:
         - main
       event:
         - push
 
-
-  # Passo 3: Fazer o deploy da aplicação no cluster Kubernetes
   - name: deploy-to-k8s
-    image: alpine/k8s:1.29.2 # Imagem leve com a ferramenta kubectl
-    environment:
-      # O pipeline precisa das credenciais do cluster, que devem ser armazenadas
-      # como um secret no Drone chamado 'kube_config'.
-      KUBE_CONFIG:
-        from_secret: kube_config
-    commands:
-      # Prepara o ambiente do kubectl dentro do container do pipeline
-      - mkdir -p ~/.kube
-      - echo "$KUBE_CONFIG" > ~/.kube/config
-      # ATUALIZA A IMAGEM: Substitui a tag da imagem no manifesto pelo hash do commit
-      # IMPORTANTE: Este comando espera que o manifesto esteja em 'k8s/manifests.yaml'
-      - "sed -i 's|image: consorcio-front:.*|image: k3rb3rdock/consorcio-front:${DRONE_COMMIT_SHA:0:7}|g' k8s/dev.yaml k8s/dev.yaml"
-      # APLICA O MANIFESTO DE DEV
-      - kubectl apply -f k8s/dev.yaml
-      # APLICA O MANIFESTO DE STAGING
-      - kubectl apply -f k8s/staging.yaml
-
-    # Garante que o deploy só ocorra em pushes na 'main'
+    image: appleboy/drone-kubectl
+    settings:
+      kube_config:
+        from_secret: KUBE_CONFIG
+      commands:
+        - kubectl apply -f k8s/dev.yaml
+        - kubectl set image deployment/consorcio-front-deployment consorcio-front-container=k3rb3rdock/consorcio-front:${DRONE_COMMIT_SHA:0:7} -n dev
     when:
       branch:
         - main
       event:
         - push
+
