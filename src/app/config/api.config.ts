@@ -4,7 +4,7 @@ const getCurrentEnvironment = (): 'dev' | 'staging' | 'local' => {
 
   if (hostname.includes('disk-functionality-informal-markers')) {
     return 'staging';
-  } else if (hostname.includes('whose-opposite-heights-laboratories')) {
+  } else if (hostname.includes('kept-bytes-flows-dramatically')) {
     return 'dev';
   } else {
     return 'local';
@@ -12,8 +12,8 @@ const getCurrentEnvironment = (): 'dev' | 'staging' | 'local' => {
 };
 
 const API_URLS = {
-  dev: 'https://needed-soup-decisions-performance.trycloudflare.com/consorcio-api',
-  staging: 'https://insulin-transportation-initially-acting.trycloudflare.com/consorcio-api',
+  dev: 'https://winning-employees-plates-knew.trycloudflare.com/consorcio-api',
+  staging: 'https://obligations-hint-hide-charlie.trycloudflare.com/consorcio-api',
   local: 'http://192.168.40.70:30090/consorcio-api'
 };
 
