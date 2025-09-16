@@ -2,22 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ParametroRequest, Simulacao, TabelaMensal } from '../models';
+import { getApiUrl, API_CONFIG } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  // private apiUrl = 'http://192.168.40.70:30090/consorcio-api';
-  private apiUrl = 'https://counties-glen-neither-warranty.trycloudflare.com/consorcio-api';
-
-
   constructor(private http: HttpClient) { }
+
   simularConsorcio(dadosDoFormulario: ParametroRequest): Observable<Simulacao[]> {
-    return this.http.post<Simulacao[]>(`${this.apiUrl}/api/simulacoes`, dadosDoFormulario);
+    return this.http.post<Simulacao[]>(getApiUrl(API_CONFIG.ENDPOINTS.SIMULACOES), dadosDoFormulario);
   }
+
   simularMensal(dadosDoFormulario: ParametroRequest): Observable<TabelaMensal[]> {
-    return this.http.post<TabelaMensal[]>(`${this.apiUrl}/api/simulacoes/mensal`, dadosDoFormulario);
+    return this.http.post<TabelaMensal[]>(getApiUrl(API_CONFIG.ENDPOINTS.SIMULACOES_MENSAL), dadosDoFormulario);
   }
 }
-
