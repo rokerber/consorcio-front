@@ -36,5 +36,5 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-      nodePort: 30082 # A porta que abriremos para o mundo exterior
+      nodePort: 30083 # A porta que abriremos para o mundo exterior
   type: NodePort
