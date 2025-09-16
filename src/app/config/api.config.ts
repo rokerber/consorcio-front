@@ -12,8 +12,8 @@ const getCurrentEnvironment = (): 'dev' | 'staging' | 'local' => {
 };
 
 const API_URLS = {
-  dev: 'https://sku-retained-leonard-cave.trycloudflare.com/consorcio-api',
-  staging: 'https://sunshine-challenged-chorus-beverage.trycloudflare.com/consorcio-api',
+  dev: 'https://checked-refurbished-marks-miniature.trycloudflare.com/consorcio-api',
+  staging: 'https://lands-creativity-mlb-text.trycloudflare.com/consorcio-api',
   local: 'http://192.168.40.70:30090/consorcio-api'
 };
 
