@@ -4,7 +4,7 @@ const getCurrentEnvironment = (): 'dev' | 'staging' | 'local' => {
 
   if (hostname.includes('disk-functionality-informal-markers')) {
     return 'staging';
-  } else if (hostname.includes('shift-subjects-juan-tract')) {
+  } else if (hostname.includes('repeated-transformation-tip-gap')) {
     return 'dev';
   } else {
     return 'local';
@@ -12,8 +12,8 @@ const getCurrentEnvironment = (): 'dev' | 'staging' | 'local' => {
 };
 
 const API_URLS = {
-  dev: 'https://empirical-jumping-dividend-velvet.trycloudflare.com/consorcio-api',
-  staging: 'https://ross-onto-morris-again.trycloudflare.com/consorcio-api',
+  dev: 'https://impressive-sites-alternatively-relating.trycloudflare.com/consorcio-api',
+  staging: 'https://republic-economies-sunday-parent.trycloudflare.com/consorcio-api',
   local: 'http://192.168.40.70:30090/consorcio-api'
 };
 
