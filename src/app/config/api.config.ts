@@ -12,14 +12,13 @@ const getCurrentEnvironment = (): 'dev' | 'staging' | 'local' => {
 };
 
 const API_URLS = {
-  dev: 'https://consorcio-front-sp1.br.saveincloud.net.br/consorcio-api',
+  local: 'https://consorcio-front-sp1.br.saveincloud.net.br/consorcio-api',
   staging: 'https://republic-economies-sunday-parent.trycloudflare.com/consorcio-api',
-  local: 'http://192.168.40.70:30090/consorcio-api'
+  dev: 'http://192.168.40.70:30090/consorcio-api'
 };
 
 export const API_CONFIG = {
   BASE_URL: API_URLS[getCurrentEnvironment()],
-
   ENDPOINTS: {
     SIMULACOES: '/api/simulacoes',
     SIMULACOES_MENSAL: '/api/simulacoes/mensal',
