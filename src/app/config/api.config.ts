@@ -12,7 +12,7 @@ const getCurrentEnvironment = (): 'dev' | 'staging' | 'local' => {
 };
 
 const API_URLS = {
-  dev: 'https://consorcio-api-sp1.br.saveincloud.net.br/consorcio-api' // <- ADICIONE o context-path
+  dev: 'https://consorcio-api-sp1.br.saveincloud.net.br' // <- ADICIONE o context-path
 };
 
 export const API_CONFIG = {
