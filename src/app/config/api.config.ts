@@ -12,7 +12,7 @@ const getCurrentEnvironment = (): 'dev' | 'staging' | 'local' => {
 };
 
 const API_URLS = {
-  dev: 'https://impressive-sites-alternatively-relating.trycloudflare.com/consorcio-api',
+  dev: 'https://consorcio-front-sp1.br.saveincloud.net.br/consorcio-api',
   staging: 'https://republic-economies-sunday-parent.trycloudflare.com/consorcio-api',
   local: 'http://192.168.40.70:30090/consorcio-api'
 };
